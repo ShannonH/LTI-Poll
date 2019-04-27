@@ -1,7 +1,7 @@
 import Grid from "@material-ui/core/Grid/index";
 import Typography from "@material-ui/core/Typography/index";
 import React, { Component } from "react";
-import CourseCard from "./courseCards";
+import CourseCard from "../page_objects/courseCards";
 
 class Courses extends Component {
   render() {

@@ -1,5 +1,6 @@
 import AppBar from "@material-ui/core/AppBar/index";
 import Badge from "@material-ui/core/Badge/index";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import CssBaseline from "@material-ui/core/CssBaseline/index";
 import Divider from "@material-ui/core/Divider/index";
 import Drawer from "@material-ui/core/Drawer/index";
@@ -20,22 +21,22 @@ import { HashRouter, Route } from "react-router-dom";
 import { darkMode, lightMode } from "../../common/styles/palette";
 import { styles } from "../../common/styles/styles";
 import ErrorBoundary from "../errorBoundary";
-import Courses from "../page_objects/courses";
 import { fullListItems } from "../page_objects/listItems";
 import SnackBar from "../page_objects/snackbar";
-import AssignGradesView from "./assignGradesView";
-import CIMRequestView from "./cimRequestView";
-import ContentItemView from "./contentItemView";
-import DeepLinkOptions from "./deepLinkOptions";
-import DeepLinkPayloadView from "./deepLinkView";
 import LaunchEndpoint from "./home";
-import LtiAdvView from "./ltiAdvView";
-import NamesRolesView from "./namesRolesView";
-import PollSetup from "./pollSetup";
-import Polls from "./pollsList";
-import Reports from "./reports";
-import Setup from "./setupView";
-import SetupView from "./setupView";
+
+const Courses = lazy(() => import("./courses"));
+const AssignGradesView = lazy(() => import("./assignGradesView"));
+const CIMRequestView = lazy(() => import("./cimRequestView"));
+const ContentItemView = lazy(() => import("./contentItemView"));
+const DeepLinkOptions = lazy(() => import("./deepLinkOptions"));
+const DeepLinkPayloadView = lazy(() => import("./deepLinkView"));
+const LtiAdvView = lazy(() => import("./ltiAdvView"));
+const NamesRolesView = lazy(() => import("./namesRolesView"));
+const PollSetup = lazy(() => import("./pollSetup"));
+const Polls = lazy(() => import("./pollsList"));
+const Reports = lazy(() => import("./reports"));
+const SetupView = lazy(() => import("./setupView"));
 
 class Dashboard extends React.Component {
   state = {
@@ -53,6 +54,7 @@ class Dashboard extends React.Component {
   };
 
   handleDarkMode = evt => {
+    //this needs refactored to save the choice in localStorage or redis
     console.log(evt);
     if (!this.state.darkMode) {
       this.setState({ theme: darkMode, darkMode: true });
@@ -135,24 +137,41 @@ class Dashboard extends React.Component {
             <ErrorBoundary>
               <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Route exact path="/" component={LaunchEndpoint} />
-                <Route path="/setup" component={Setup} />
-                <Route path="/home" component={LaunchEndpoint} />
-                <Route path="/content_item" component={ContentItemView} />
-                <Route path="/cim_request" component={CIMRequestView} />
-                <Route path="/lti_adv_view" component={LtiAdvView} />
-                <Route path="/setup_page" component={SetupView} />
-                <Route path="/deep_link" component={DeepLinkPayloadView} />
-                <Route path="/deep_link_options" component={DeepLinkOptions} />
-                <Route path="/names_roles_view" component={NamesRolesView} />
-                <Route
-                  path="/assign_grades_view"
-                  component={AssignGradesView}
-                />
-                <Route path="/pollSetup" component={PollSetup} />
-                <Route path={"/polls"} component={Polls} />
-                <Route path={"/courses"} component={Courses} />
-                <Route path={"/reports"} component={Reports} />
+                <Suspense
+                  fallback={
+                    <div>
+                      <CircularProgress />
+                    </div>
+                  }
+                  color={"secondary"}
+                  className={classNames(classes.progress)}>
+                  <Switch>
+                    <Route exact path="/" component={LaunchEndpoint} />
+                    <Route path="/home" component={LaunchEndpoint} />
+                    <Route path="/content_item" component={ContentItemView} />
+                    <Route path="/cim_request" component={CIMRequestView} />
+                    <Route path="/lti_adv_view" component={LtiAdvView} />
+                    <Route path="/setup_page" component={SetupView} />
+                    <Redirect path="/setup" to={"/setup_page"} />
+                    <Route path="/deep_link" component={DeepLinkPayloadView} />
+                    <Route
+                      path="/deep_link_options"
+                      component={DeepLinkOptions}
+                    />
+                    <Route
+                      path="/names_roles_view"
+                      component={NamesRolesView}
+                    />
+                    <Route
+                      path="/assign_grades_view"
+                      component={AssignGradesView}
+                    />
+                    <Route path="/pollSetup" component={PollSetup} />
+                    <Route path={"/polls"} component={Polls} />
+                    <Route path={"/courses"} component={Courses} />
+                    <Route path={"/reports"} component={Reports} />
+                  </Switch>
+                </Suspense>
               </main>
               <SnackBar />
             </ErrorBoundary>

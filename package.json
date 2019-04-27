@@ -7,7 +7,6 @@
   "repository": "https://github.com/ewpreston/LTI-Poll",
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.4.3",
     "@babel/runtime": "^7.4.3",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
@@ -15,14 +14,12 @@
     "classnames": "^2.2.6",
     "express": "^4.16.4",
     "faker": "^4.1.0",
-    "finish": "^0.6.3",
     "ims-caliper": "^1.0.3",
     "ims-lti": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.1",
     "lodash": "^4.17.11",
     "material-ui-chip-input": "^1.0.0-beta.16",
-    "oauth-signature": "^1.5.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.4.2",
     "react": "^16.8.6",
@@ -41,6 +38,7 @@
     "@babel/core": "^7.4.3",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-classes": "^7.4.3",
     "@babel/plugin-transform-flow-strip-types": "^7.4.0",
     "@babel/plugin-transform-modules-commonjs": "^7.4.3",
@@ -48,14 +46,23 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^2.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "react-code-splitting": "^1.2.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack": "^4.30.0",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
     "build-server": "babel server/src -d server/lib --source-maps",
-    "build-public": "webpack --display-error-details",
-    "prestart": "npm install; npm run build-server; npm run build-public",
-    "start": "node server/lib/server.js"
+    "build-public": "webpack --display-error-details --mode production",
+    "build-dev": "webpack --display-error-details --mode development",
+    "start-prod": "npm install; npm run build-server; npm run build-public; node server/lib/server.js",
+    "start-dev": "npm install; npm run build-server; npm run build-dev; node server/lib/server.js",
+    "start-webpack-dev-server": "webpack-dev-server --mode development",
+    "start-webpack-prod-dev-server": "webpack-dev-server --mode production"
   }
 }

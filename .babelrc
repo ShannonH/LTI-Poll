@@ -9,6 +9,7 @@
     "@babel/plugin-transform-classes",
     "@babel/plugin-transform-flow-strip-types",
     "@babel/plugin-transform-modules-commonjs",
-    "@babel/transform-runtime"
+    "@babel/transform-runtime",
+    "@babel/plugin-syntax-dynamic-import"
   ]
 }
