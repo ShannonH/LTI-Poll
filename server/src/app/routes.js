@@ -18,11 +18,9 @@ import redisUtil from "./redisutil";
 const contentitem_key = "contentItemData";
 
 module.exports = function(app) {
-  let dataLoaded = false;
   let provider =
     config.provider_domain +
     (config.provider_port !== "NA" ? ":" + config.provider_port : "");
-  let launchData = {};
 
   let contentItemData = new ContentItem();
   let ciLoaded = false;
@@ -312,31 +310,82 @@ module.exports = function(app) {
 
   app.get("/testRedis", (req, res) => {
     console.log("--------------------\ntestRedis");
-    let pollId = "1234567";
+    let pollId = "shannon1234";
 
-    redisUtil.savePollQuestion(pollId, "What is your favorite color");
+    redisUtil.savePollQuestion(pollId, "Who is your favorite EP person?");
     redisUtil.loadPollQuestion(pollId).then(question => {
       console.log(question);
     });
 
-    redisUtil.savePollOptions(pollId, ["Red", "Blue", "Purple", "Yellow"]);
+    redisUtil.savePollOptions(pollId, [
+      "Shannon",
+      "Nobody",
+      "Lorinda",
+      "Casey"
+    ]);
     redisUtil.loadPollOptions(pollId).then(options => {
       console.log(options);
     });
+    redisUtil.savePollCreator(pollId, "shannon");
 
     redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
     redisUtil.loadPollResults(pollId).then(results => {
       console.log(results);
     });
 
-    res.send("<html><body>1</body></html>");
+    res.send("<html lang=''><body>1</body></html>");
   });
 
   //=======================================================
-  // Poll
+  // Polls
+
   app.post("/pollSetup", (req, res) => {
     console.log("--------------------\npollSetup");
+  });
+
+  app.post("/savePoll", (req, res) => {
+    redisUtil.savePollCreator(req.body.pollId, req.body.creator);
+    redisUtil.addToCreatedList(req.body.pollId, req.body.creator);
+    redisUtil.savePollName(req.body.pollId, req.body.pollName);
+    redisUtil.savePollQuestion(req.body.pollId, req.body.question);
+    redisUtil.savePollOptions(req.body.pollId, req.body.options);
     res.redirect("#/pollSetup");
+  });
+
+  app.get("/myPolls", (req, res) => {
+    redisUtil
+      .getPollsPerCreator(req.query.userId)
+      .then(pollIds => {
+        res.send(pollIds);
+      })
+      .catch(e => console.log(e));
+  });
+
+  app.get("/pollName", (req, res) => {
+    redisUtil
+      .getPollName(req.query.pollId)
+      .then(name => {
+        res.send(name);
+      })
+      .catch(e => console.log(e));
+  });
+
+  app.get("/myPolls", (req, res) => {
+    redisUtil
+      .getPollsPerCreator(req.query.userId)
+      .then(pollIds => {
+        res.send(pollIds);
+      })
+      .catch(e => console.log(e));
+  });
+
+  app.get("/pollName", (req, res) => {
+    redisUtil
+      .getPollName(req.query.pollId)
+      .then(name => {
+        res.send(name);
+      })
+      .catch(e => console.log(e));
   });
 
   //=======================================================

@@ -1,13 +1,21 @@
 import Button from "@material-ui/core/Button/index";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField/index";
 import Typography from "@material-ui/core/Typography/index";
-import Faker from "faker";
+import classNames from "classnames";
+import Faker from "faker/locale/en_US";
 import React, { Component } from "react";
 import { openSnackbar } from "../page_objects/snackbar";
 
 let randomText = Faker.lorem.lines(25);
 let randomGuid = Faker.random.uuid();
 let randomHost = Faker.internet.url();
+
+const styles = themeType => ({
+  textField: {
+    borderColor: themeType.palette.secondary
+  }
+});
 
 class SetupView extends Component {
   constructor(props) {
@@ -39,8 +47,6 @@ class SetupView extends Component {
 
   handleSubmit() {
     const data = new URLSearchParams(this.state);
-    let setupData = JSON.stringify(this.state);
-    console.log("body", setupData);
     fetch("/saveSetup", {
       method: "POST",
       headers: {
@@ -57,6 +63,7 @@ class SetupView extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Typography variant="h4" gutterBottom component="h2">
@@ -65,6 +72,7 @@ class SetupView extends Component {
         <br />
         <form id={"setupForm"}>
           <TextField
+            className={classes.textField}
             required
             label="Developer Portal URL"
             variant="outlined"
@@ -141,17 +149,20 @@ class SetupView extends Component {
           />
           <br />
           <br />
-          <Button
-            id={"save_button"}
-            variant="contained"
-            color="secondary"
-            onClick={this.handleSubmit}>
-            Save
-          </Button>
+          <div className={classNames(classes.bottomSave)}>
+            <Button
+              size={"large"}
+              id={"save_button"}
+              variant="contained"
+              color="secondary"
+              onClick={this.handleSubmit}>
+              Save
+            </Button>
+          </div>
         </form>
       </div>
     );
   }
 }
 
-export default SetupView;
+export default withStyles(styles)(SetupView);

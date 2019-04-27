@@ -87,5 +87,33 @@ export const styles = theme => ({
   },
   h5: {
     marginBottom: theme.spacing.unit * 2
+  },
+  chip: {
+    margin: theme.spacing.unit
+  },
+  paperSheet: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
+  },
+  bottomSave: {
+    margin: 0,
+    top: "auto",
+    right: 20,
+    bottom: 20,
+    left: "auto",
+    position: "fixed"
+  },
+  midTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  },
+  choiceContainer: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap"
+  },
+  progress: {
+    margin: theme.spacing.unit * 2
   }
 });

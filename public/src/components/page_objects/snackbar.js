@@ -1,4 +1,3 @@
-import Button from "@material-ui/core/Button/index";
 import IconButton from "@material-ui/core/IconButton/index";
 import Snackbar from "@material-ui/core/Snackbar/index";
 import { withStyles } from "@material-ui/core/styles/index";
@@ -34,7 +33,6 @@ class SimpleSnackbar extends React.Component {
     if (reason === "clickaway") {
       return;
     }
-
     this.setState({ open: false, message: "" });
   };
 
@@ -53,23 +51,10 @@ class SimpleSnackbar extends React.Component {
             horizontal: "left"
           }}
           open={this.state.open}
-          autoHideDuration={6000}
+          autoHideDuration={3000}
           onClose={this.handleClose}
-          ContentProps={{
-            "aria-describedby": "message-id"
-          }}
-          SnackbarContentProps={{
-            "aria-describedby": "snackbar-message-id"
-          }}
           message={message}
           action={[
-            <Button
-              key="undo"
-              color="secondary"
-              size="small"
-              onClick={this.handleClose}>
-              UNDO
-            </Button>,
             <IconButton
               key="close"
               aria-label="Close"

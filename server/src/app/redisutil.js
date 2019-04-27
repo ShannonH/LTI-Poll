@@ -34,6 +34,49 @@ module.exports = (function() {
       });
     },
 
+    redisSadd: function(key, value) {
+      redisClient.sadd(key, value, function(err, res) {
+        console.log("saveProxy err " + err);
+        console.log("saveProxy res " + res);
+      });
+    },
+
+    redisSmembers: function(userId) {
+      return new Promise(function(resolve, reject) {
+        redisClient.smembers(userId, function(err, res) {
+          resolve(res);
+        });
+      });
+    },
+
+    savePollCreator: function(pollId, userId) {
+      let key = pollId + "C";
+      this.redisSave(key, userId);
+    },
+
+    addToCreatedList: function(pollId, userId) {
+      this.redisSadd(userId, pollId);
+    },
+
+    getPollCreator: async function(pollId) {
+      let key = pollId + "C";
+      return await this.redisGet(key);
+    },
+
+    getPollsPerCreator: async function(userId) {
+      return await this.redisSmembers(userId);
+    },
+
+    savePollName: function(pollId, name) {
+      let key = pollId + "N";
+      this.redisSave(key, name);
+    },
+
+    getPollName: async function(pollId) {
+      let key = pollId + "N";
+      return await this.redisGet(key);
+    },
+
     savePollQuestion: function(pollId, question) {
       let key = pollId + "Q";
       this.redisSave(key, question);
