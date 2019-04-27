@@ -1,4 +1,4 @@
-import {Result} from "../common/pollTypes";
+import { Result } from "../common/pollTypes";
 
 let redis = require("redis");
 
