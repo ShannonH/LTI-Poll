@@ -153,19 +153,20 @@ class SetupView extends Component {
           <div className={classNames(classes.bottomSave)}>
             <Button
               size={"large"}
-              id={"cancel_button"}
-              variant={"contained"}
-              component={Link}
-              to="/home">
-              Cancel
-            </Button>
-            <Button
-              style={{ left: 15 }}
-              size={"large"}
               id={"save_button"}
               variant="contained"
               color="secondary">
               Save
+            </Button>
+            <Button
+              style={{ left: 15 }}
+              size={"large"}
+              color={"primary"}
+              id={"cancel_button"}
+              variant={"outlined"}
+              component={Link}
+              to="/home">
+              Cancel
             </Button>
           </div>
         </form>
