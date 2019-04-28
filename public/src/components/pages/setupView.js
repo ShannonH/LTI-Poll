@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography/index";
 import classNames from "classnames";
 import Faker from "faker/locale/en_US";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { openSnackbar } from "../page_objects/snackbar";
 
 let randomText = Faker.lorem.lines(25);
@@ -152,10 +153,18 @@ class SetupView extends Component {
           <div className={classNames(classes.bottomSave)}>
             <Button
               size={"large"}
+              id={"cancel_button"}
+              variant={"contained"}
+              component={Link}
+              to="/home">
+              Cancel
+            </Button>
+            <Button
+              style={{ left: 15 }}
+              size={"large"}
               id={"save_button"}
               variant="contained"
-              color="secondary"
-              onClick={this.handleSubmit}>
+              color="secondary">
               Save
             </Button>
           </div>
