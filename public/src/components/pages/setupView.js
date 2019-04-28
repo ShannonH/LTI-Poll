@@ -155,7 +155,8 @@ class SetupView extends Component {
               size={"large"}
               id={"save_button"}
               variant="contained"
-              color="secondary">
+              color="secondary"
+              onClick={this.handleSubmit}>
               Save
             </Button>
             <Button
