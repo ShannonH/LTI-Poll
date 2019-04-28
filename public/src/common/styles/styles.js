@@ -106,7 +106,7 @@ export const styles = theme => ({
   },
   midTextField: {
     marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit * 20
   },
   choiceContainer: {
     display: "flex",
@@ -115,5 +115,10 @@ export const styles = theme => ({
   },
   progress: {
     margin: theme.spacing.unit * 2
+  },
+  actionButtons: {
+    display: "inline",
+    position: "absolute",
+    right: 20
   }
 });
